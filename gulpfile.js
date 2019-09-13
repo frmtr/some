@@ -1,6 +1,8 @@
 const 
 	gulp=require('gulp'),
 	browserSync=require('browser-sync'),
+	plumber = require('gulp-plumber'),
+	notify = require('gulp-notify'),
 	pug=require('gulp-pug'),
 	sass=require('gulp-sass'),
 	rename = require('gulp-rename'),
@@ -9,7 +11,8 @@ const
 gulp.task('compile-pug', () => {
     return (
         gulp
-            .src('./dev/pug/*.pug')
+			.src('./dev/pug/*.pug')
+			.pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
             .pipe(pug())
             .pipe(gulp.dest('./'))
     );
@@ -20,7 +23,8 @@ gulp.task('compile-scss', () => {
         gulp
             .src('./dev/scss/style.scss', {
                 sourcemaps: true
-            })
+			})
+			.pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
             .pipe(sass())
             .pipe(gulp.dest('./build/css'))
     );
@@ -31,7 +35,8 @@ gulp.task('compile-js', () => {
         gulp
             .src('./dev/js/*.js', {
                 sourcemaps: true
-            })
+			})
+			.pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
             .pipe(uglify())
             .pipe(rename({extname: '.min.js'}))
             .pipe(gulp.dest('./build/js'))
