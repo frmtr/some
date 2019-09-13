@@ -23,4 +23,4 @@ gulp.task('compile-scss', () =>{
 });
 
 
-gulp.task('default', gulp.series(gulp.parallel('compile-pug')));
+gulp.task('default', gulp.series(gulp.parallel('compile-pug','compile-scss')));
